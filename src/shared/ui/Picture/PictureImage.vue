@@ -19,35 +19,41 @@ withDefaults(defineProps<{
   imageClass: undefined,
   pictureClass: undefined,
 })
+
+function resolveAsset(path?: string) {
+  if (!path) return ''
+
+  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+}
 </script>
 
 <template>
   <picture :class="pictureClass">
     <template v-if="responsive">
       <source
-        :srcset="responsive.mobile.webp"
+        :srcset="resolveAsset(responsive.mobile.webp)"
         type="image/webp"
         media="(max-width: 760px)"
       >
       <source
-        :srcset="responsive.mobile.png"
+        :srcset="resolveAsset(responsive.mobile.png)"
         media="(max-width: 760px)"
       >
       <source
-        :srcset="responsive.tablet.webp"
+        :srcset="resolveAsset(responsive.tablet.webp)"
         type="image/webp"
         media="(max-width: 1020px)"
       >
       <source
-        :srcset="responsive.tablet.png"
+        :srcset="resolveAsset(responsive.tablet.png)"
         media="(max-width: 1020px)"
       >
-      <source :srcset="responsive.pc.webp" type="image/webp">
-      <img :class="imageClass" :src="responsive.pc.png" :alt="alt">
+      <source :srcset="resolveAsset(responsive.pc.webp)" type="image/webp">
+      <img :class="imageClass" :src="resolveAsset(responsive.pc.png)" :alt="alt">
     </template>
     <template v-else>
-      <source :srcset="webp" type="image/webp">
-      <img :class="imageClass" :src="png" :alt="alt">
+      <source :srcset="resolveAsset(webp)" type="image/webp">
+      <img :class="imageClass" :src="resolveAsset(png)" :alt="alt">
     </template>
   </picture>
 </template>
